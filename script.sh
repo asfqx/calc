@@ -24,7 +24,7 @@ echo "Проверка наличия $SPEC_FILE..."
 if [ ! -f "$SPEC_FILE" ]; then
     echo "Файл $SPEC_FILE не найден. Создаём..."
     cat <<EOL > $SPEC_FILE
-Name:           Task2_calculator
+Name:           calc
 Version:        1.0
 Release:        1%{?dist}
 Summary:        Example calculator application
@@ -48,7 +48,7 @@ cp -r * %{buildroot}/usr/local/bin
 /usr/local/bin/*
 
 %changelog
-* $(date "+%a %b %d %Y") YourName <your@email.com> - 1.0-1
+* $(date "+%a %b %d %Y") asfqx <polinabrunina25@gmail.com> - 1.0-1
 - Initial RPM build
 EOL
 fi
