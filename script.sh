@@ -4,7 +4,7 @@
 #set -e
 
 # 1. Git pull для обновления репозитория
-REPO_DIR="./calc" # Corrected path
+REPO_DIR="." # Corrected path
 
 echo "Переход в директорию репозитория и обновление..."
 
