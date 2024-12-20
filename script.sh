@@ -64,6 +64,11 @@ EOL
 fi
 
 # 4. Сборка RPM
+echo "Сборка RPM пакета..."
+mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+cp "$SPEC_FILE" ~/rpmbuild/SPECS/
+tar -czf ~/rpmbuild/SOURCES/project.tar.gz -C "/home/brunina_po/Desktop/calc" . || { echo "Ошибка: Не удалось создать архив"; exit 1; }
+rpmbuild -ba ~/rpmbuild/SPECS/$(basename $SPEC_FILE) || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
 
 # 5. Установка RPM
 RPM_FILE=$(find ~/rpmbuild/RPMS -name "*.rpm" | head -n 1)
