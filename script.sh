@@ -40,6 +40,8 @@ Summary:        Example calculator application
 License:        MIT
 Source0:        project.tar.gz
 
+Requires: /bin/bash
+
 %description
 A simple calculator application.
 
@@ -47,7 +49,6 @@ A simple calculator application.
 %setup -q
 
 %build
-# Если требуется компиляция или сборка, добавьте команды здесь
 
 %install
 mkdir -p %{buildroot}/usr/local/bin
@@ -57,7 +58,7 @@ cp -r * %{buildroot}/usr/local/bin
 /usr/local/bin/*
 
 %changelog
-* $(date "+%a %b %d %Y") asfqx <[polinabrunina25@gmail.com](https://polinabrunina25@gmail.com)> - 1.0-1
+* $(date "+%a %b %d %Y") YourName <your@email.com> - 1.0-1
 - Initial RPM build
 
 EOL
@@ -81,8 +82,10 @@ if [ -z "$RPM_FILE" ]; then
 fi
 
 echo "Установка RPM пакета..."
+sudo alien -k $RPM_FILE
+RPM_FILE=$(find $REPO_DIR -name "*.deb" | head -n 1)
+sudo dpkg -i <имя_deb_файла>
 
-sudo rpm -Uvh --force "$RPM_FILE" || { echo "Ошибка: Не удалось установить RPM пакет"; exit 1; }
 
 # 6. Проверка и запуск программы
 MAIN_SCRIPT="/usr/local/bin/main.py"
