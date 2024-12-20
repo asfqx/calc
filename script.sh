@@ -84,7 +84,7 @@ fi
 
 echo "Установка RPM пакета..."
 sudo alien -k $RPM_FILE
-sudo dpkg -i calc-1.0.x86_64.deb
+sudo dpkg -i ~/rpmbuild/RPMS/x86_64/calc-1.0.x86_64.deb
 
 # 6. Проверка и запуск программы
 MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
