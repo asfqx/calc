@@ -34,7 +34,7 @@ if [ ! -f "$SPEC_FILE" ]; then
     echo "Файл $SPEC_FILE не найден. Создаём..."
     cat <<EOL > $SPEC_FILE
 Name:           calc
-Version:        
+Version:        1.0
 Release:        1%{?dist}
 Summary:        Example calculator application
 License:        MIT
