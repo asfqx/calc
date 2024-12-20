@@ -66,12 +66,13 @@ fi
 
 # 4. Сборка RPM
 echo "Сборка RPM пакета..."
+mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+cd /home/brunina_po/Desktop/calc
+mkdir calc-1.0
 cp -r * calc-1.0
 tar -czf ~/rpmbuild/SOURCES/project.tar.gz calc-1.0
-mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+rpmbuild -ba ~/rpmbuild/SPECS/package.spec || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
 cp "$SPEC_FILE" ~/rpmbuild/SPECS/
-tar -czf ~/rpmbuild/SOURCES/project.tar.gz -C "/home/brunina_po/Desktop/calc" . || { echo "Ошибка: Не удалось создать архив"; exit 1; }
-rpmbuild -ba ~/rpmbuild/SPECS/$(basename $SPEC_FILE) || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
 
 # 5. Установка RPM
 RPM_FILE=$(find ~/rpmbuild/RPMS -name "*.rpm" | head -n 1)
@@ -83,8 +84,7 @@ fi
 
 echo "Установка RPM пакета..."
 sudo alien -k $RPM_FILE
-DEB_FILE=$(find $REPO_DIR -name "*.deb" | head -n 1)
-sudo dpkg -i $DEB_FILE
+sudo dpkg -i calc-1.0.x86_64.deb
 
 # 6. Проверка и запуск программы
 MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
