@@ -65,6 +65,7 @@ fi
 
 # 4. Сборка RPM
 echo "Сборка RPM пакета..."
+mkdir calc-1.0
 mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 cp "$SPEC_FILE" ~/rpmbuild/SPECS/
 tar -czf ~/rpmbuild/SOURCES/project.tar.gz -C "/home/brunina_po/Desktop/calc" . || { echo "Ошибка: Не удалось создать архив"; exit 1; }
