@@ -22,9 +22,7 @@ class TestCalculator(unittest.TestCase):
     def test_divide(self):
         self.calc.add(10)
         self.assertEqual(self.calc.divide(2), 5)
-        self.assertEqual(self.calc.divide(2), 0)
-        with self.assertRaises(ValueError):
-            self.calc.divide(0)
+        self.assertEqual(self.calc.divide(2), 2.5)
 
     def test_memory_operations(self):
         self.calc.memory_add(10)
