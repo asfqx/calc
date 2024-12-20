@@ -86,9 +86,8 @@ sudo alien -k $RPM_FILE
 DEB_FILE=$(find $REPO_DIR -name "*.deb" | head -n 1)
 sudo dpkg -i $DEB_FILE
 
-
 # 6. Проверка и запуск программы
-MAIN_SCRIPT="/usr/local/bin/main.py"
+MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
 
 if [ ! -f "$MAIN_SCRIPT" ]; then
     echo "Ошибка: Главный файл $MAIN_SCRIPT не найден. Убедитесь, что он установлен."
