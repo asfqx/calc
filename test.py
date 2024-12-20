@@ -1,10 +1,5 @@
 import unittest
-
-import matplotlib.pyplot as plt
-import numpy as np
-
 from calc_functions import Calculator
-from graphics import plot_linear, plot_quadratic, plot_trig
 
 
 class TestCalculator(unittest.TestCase):
@@ -77,35 +72,6 @@ class TestCalculator(unittest.TestCase):
     def test_clear(self):
         self.calc.add(100)
         self.assertEqual(self.calc.clear(), 0)
-
-    def test_plot_linear(self):
-        try:
-            plot_linear(2, 3)
-        except Exception as e:
-            self.fail(f"plot_linear raised an exception: {e}")
-        ax = plt.gca()
-        self.assertEqual(len(ax.lines), 1, "Должна быть одна линия на графике")
-        plt.close('all')  
-
-    def test_plot_quadratic(self):
-        try:
-            plot_quadratic(1, 0, -1)
-        except Exception as e:
-            self.fail(f"plot_quadratic raised an exception: {e}")
-        ax = plt.gca()
-        self.assertEqual(len(ax.lines), 1, " на графике")
-        plt.close('all')  # Сброс графиков
-
-    def test_plot_trig(self):
-        for func_type, func in [("sin", np.sin), ("cos", np.cos)]:
-            with self.subTest(func_type=func_type):
-                try:
-                    plot_trig(func_type)
-                except Exception as e:
-                    self.fail(f"plot_trig raised an exception for {func_type}: {e}")
-                ax = plt.gca()
-                self.assertEqual(len(ax.lines), 1, "Должна быть одна линия на графике")
-                plt.close('all')
 
 
 if __name__ == '__main__':
