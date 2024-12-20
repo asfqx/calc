@@ -83,6 +83,7 @@ if [ -z "$RPM_FILE" ]; then
 fi
 
 echo "Установка RPM пакета..."
+sudo rpm -Uvh --force "$RPM_FILE" || { echo "Ошибка: Не удалось установить RPM пакет"; exit 1; }
 
 # 6. Проверка и запуск программы
 MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
