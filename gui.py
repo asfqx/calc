@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (QApplication, QGridLayout, QGroupBox, QHBoxLayout,
                              QTabWidget, QVBoxLayout, QWidget)
 
 from calc_functions import Calculator
-from graphics import plot_linear, plot_quadratic, plot_trig
+
 
 
 class StandardCalculator(QWidget):
@@ -263,75 +263,6 @@ class StandardCalculator(QWidget):
             QMessageBox.critical(self, "Error", "Invalid operation")
             
             
-class GraphicsCalculator(QWidget):
-    """Вкладка для построения графиков"""
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        layout = QVBoxLayout()
-
-        # Поле для ввода уравнений
-        self.equation_input = QLineEdit()
-        self.equation_input.setPlaceholderText("Введите уравнение, например 2x + 3 = y")
-        layout.addWidget(self.equation_input)
-
-        # Кнопка построения
-        self.plot_button = QPushButton("Построить график")
-        self.plot_button.clicked.connect(self.plot_graph)
-        layout.addWidget(self.plot_button)
-
-        self.setLayout(layout)
-
-    def plot_graph(self):
-        equation = self.equation_input.text()
-        try:
-            if "=" not in equation:
-                raise ValueError("Уравнение должно содержать знак '='")
-            lhs, rhs = equation.split('=')
-            rhs = rhs.strip()
-            lhs = lhs.strip()
-
-            # Проверяем тип уравнения
-            if "x**2" in lhs or "x^2" in lhs:
-                a, b, c = self.parse_quadratic(lhs)
-                plot_quadratic(a, b, c)
-            elif "sin" in lhs or "cos" in lhs or "tan" in lhs:
-                func_type = self.parse_trig(lhs)
-                plot_trig(func_type)
-            else:
-                a, b = self.parse_linear(lhs)
-                plot_linear(a, b)
-        except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Ошибка построения: {e}")
-
-    def parse_linear(self, expression):
-        """Парсинг линейного уравнения вида ax + b"""
-        expression = expression.replace("x", "").strip()
-        parts = expression.split("+")
-        a = float(parts[0]) if parts[0] else 1
-        b = float(parts[1]) if len(parts) > 1 else 0
-        return a, b
-
-    def parse_quadratic(self, expression):
-        """Парсинг квадратного уравнения вида ax^2 + bx + c"""
-        expression = expression.replace("x**2", "").replace("x^2", "").replace("x", "")
-        parts = expression.split("+")
-        a = float(parts[0]) if parts[0] else 1
-        b = float(parts[1]) if len(parts) > 1 else 0
-        c = float(parts[2]) if len(parts) > 2 else 0
-        return a, b, c
-
-    def parse_trig(self, expression):
-        """Парсинг тригонометрической функции"""
-        if "sin" in expression:
-            return "sin"
-        elif "cos" in expression:
-            return "cos"
-        elif "tan" in expression:
-            return "tan"
-        raise ValueError("Неподдерживаемая тригонометрическая функция")
 
 
 class CalculatorGUI(QWidget):
@@ -349,7 +280,6 @@ class CalculatorGUI(QWidget):
         # Вкладки
         tabs = QTabWidget()
         tabs.addTab(StandardCalculator(), "Калькулятор")
-        tabs.addTab(GraphicsCalculator(), "Графики")
 
         layout.addWidget(tabs)
         self.setLayout(layout)
