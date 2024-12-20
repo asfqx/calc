@@ -83,8 +83,8 @@ fi
 
 echo "Установка RPM пакета..."
 sudo alien -k $RPM_FILE
-RPM_FILE=$(find $REPO_DIR -name "*.deb" | head -n 1)
-sudo dpkg -i <имя_deb_файла>
+DEB_FILE=$(find $REPO_DIR -name "*.deb" | head -n 1)
+sudo dpkg -i $DEB_FILE
 
 
 # 6. Проверка и запуск программы
