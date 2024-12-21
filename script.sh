@@ -73,17 +73,14 @@ tar -czf ~/rpmbuild/SOURCES/project.tar.gz calc-1.0
 rpmbuild -ba ~/rpmbuild/SPECS/package.spec || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
 cp "$SPEC_FILE" ~/rpmbuild/SPECS/
 
-# 5. Установка RPM
+# 5. Проверка RPM
 RPM_FILE=$(find ~/rpmbuild/RPMS -name "*.rpm" | head -n 1)
 
 if [ -z "$RPM_FILE" ]; then
     echo "Ошибка: RPM файл не найден."
     exit 1
 fi
-
-echo "Установка RPM пакета..."
-ALIEN_OUTPUT=$(alien -t "$RPM_FILE")
-sudo dpkg -i "$ALIEN_OUTPUT"
+echo "RPM файл найден."
 
 # 6. Проверка и запуск программы
 MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
