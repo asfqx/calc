@@ -23,8 +23,7 @@ if [ ! -f "$TEST_FILE" ]; then
 fi
 
 python3 "$TEST_FILE" || { echo "Ошибка: Тесты завершились с ошибкой"; exit 1; }
-
-
+"""
 # 3. Проверка и создание package.spec
 SPEC_FILE="package.spec"
 
@@ -85,7 +84,34 @@ fi
 echo "Установка RPM пакета..."
 ALIEN_OUTPUT=$(alien -t "$RPM_FILE")
 sudo dpkg -i "$ALIEN_OUTPUT"
+"""
+# 3. Создание deb пакета (используя dh-make)
+PACKAGE_NAME="calc" # Замените на имя вашего пакета
+PACKAGE_VERSION="1.0"       # Замените на версию вашего пакета
 
+echo "Создание deb пакета..."
+
+# dh-make создает базовый шаблон. Вам нужно будет настроить файлы в созданной директории
+dh-make --create --name="$PACKAGE_NAME" --copyright "MIT"
+
+# Переходим в созданную директорию
+cd "$PACKAGE_NAME" || { echo "Ошибка: Не удалось перейти в директорию $PACKAGE_NAME"; exit 1; }
+
+# Необходимо настроить файлы в этой директории (например, debian/control, файлы в директории usr/local/bin и т.д.)
+# Это включает в себя заполнение информации в debian/control,  копирование исполняемых файлов и т.д.
+
+# После настройки, выполните сборку:
+dpkg-buildpackage -us -uc || { echo "Ошибка: Не удалось собрать deb пакет"; exit 1; }
+
+
+# 4. Установка deb пакета
+DEB_FILE=$(find . -name "*.deb" | head -n 1)
+if [ -z "$DEB_FILE" ]; then
+    echo "Ошибка: DEB файл не найден."
+    exit 1
+fi
+echo "Установка DEB пакета..."
+sudo dpkg -i "$DEB_FILE" || { echo "Ошибка: Не удалось установить DEB пакет"; exit 1; }
 # 6. Проверка и запуск программы
 MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
 
