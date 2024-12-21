@@ -69,7 +69,7 @@ mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 cd /home/brunina_po/Desktop/calc
 mkdir calc-1.0
 cp -r * calc-1.0
-tar -czf ~/rpmbuild/SOURCES/project.tar.gz calc-1.0
+tar -czf ~/rpmbuild/SOURCES/project.tar.gz calc
 rpmbuild -ba ~/rpmbuild/SPECS/package.spec || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
 cp "$SPEC_FILE" ~/rpmbuild/SPECS/
 
