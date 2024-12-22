@@ -24,7 +24,6 @@ fi
 
 python3 "$TEST_FILE" || { echo "Ошибка: Тесты завершились с ошибкой"; exit 1; }
 
-
 # 3. Проверка и создание package.spec
 SPEC_FILE="package.spec"
 
@@ -34,11 +33,13 @@ if [ ! -f "$SPEC_FILE" ]; then
     echo "Файл $SPEC_FILE не найден. Создаём..."
     cat <<EOL > $SPEC_FILE
 Name:           calc
-Version:        
+Version:        1.0
 Release:        1%{?dist}
 Summary:        Example calculator application
 License:        MIT
 Source0:        project.tar.gz
+
+Requires: /bin/bash
 
 %description
 A simple calculator application.
@@ -47,7 +48,6 @@ A simple calculator application.
 %setup -q
 
 %build
-# Если требуется компиляция или сборка, добавьте команды здесь
 
 %install
 mkdir -p %{buildroot}/usr/local/bin
@@ -57,7 +57,7 @@ cp -r * %{buildroot}/usr/local/bin
 /usr/local/bin/*
 
 %changelog
-* $(date "+%a %b %d %Y") asfqx <[polinabrunina25@gmail.com](https://polinabrunina25@gmail.com)> - 1.0-1
+* $(date "+%a %b %d %Y") YourName <your@email.com> - 1.0-1
 - Initial RPM build
 
 EOL
@@ -65,29 +65,25 @@ fi
 
 # 4. Сборка RPM
 echo "Сборка RPM пакета..."
-
 mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-
+cd /home/brunina_po/Desktop/calc
+mkdir calc-1.0
+cp -r * calc-1.0
+tar -czf ~/rpmbuild/SOURCES/project.tar.gz calc-1.0
+rpmbuild -ba ~/rpmbuild/SPECS/package.spec || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
 cp "$SPEC_FILE" ~/rpmbuild/SPECS/
 
-tar -czf ~/rpmbuild/SOURCES/project.tar.gz -C "/home/brunina_po/Desktop/calc" . || { echo "Ошибка: Не удалось создать архив"; exit 1; }
-
-rpmbuild -ba ~/rpmbuild/SPECS/$(basename $SPEC_FILE) || { echo "Ошибка: Не удалось собрать RPM пакет"; exit 1; }
-
-# 5. Установка RPM
+# 5. Проверка RPM
 RPM_FILE=$(find ~/rpmbuild/RPMS -name "*.rpm" | head -n 1)
 
 if [ -z "$RPM_FILE" ]; then
     echo "Ошибка: RPM файл не найден."
     exit 1
 fi
-
-echo "Установка RPM пакета..."
-
-sudo rpm -Uvh --force "$RPM_FILE" || { echo "Ошибка: Не удалось установить RPM пакет"; exit 1; }
+echo "RPM файл найден."
 
 # 6. Проверка и запуск программы
-MAIN_SCRIPT="/usr/local/bin/main.py"
+MAIN_SCRIPT="/home/brunina_po/Desktop/calc/main.py"
 
 if [ ! -f "$MAIN_SCRIPT" ]; then
     echo "Ошибка: Главный файл $MAIN_SCRIPT не найден. Убедитесь, что он установлен."
